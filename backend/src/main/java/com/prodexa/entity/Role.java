@@ -1,0 +1,5 @@
+package com.prodexa.entity;
+
+public enum Role {
+    ADMIN, PRODUCTION_MANAGER, INVENTORY_MANAGER, MACHINE_OPERATOR, QUALITY_ANALYST
+}
