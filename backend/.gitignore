@@ -1,0 +1,22 @@
+# Maven build output - never commit
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Application secrets - never commit
+src/main/resources/application-local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.eclipse
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
