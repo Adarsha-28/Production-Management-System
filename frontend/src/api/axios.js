@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 const api = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 30000, // 30 seconds — Render free tier can take time to wake up
+  timeout: 30000,
 });
 
 api.interceptors.request.use((config) => {
@@ -25,9 +25,9 @@ api.interceptors.response.use(
   }
 );
 
-// Wake up Render backend on app load (free tier sleeps after inactivity)
+// Ping backend to wake it up — returns promise so callers can await
 export const wakeUpBackend = () => {
-  axios.get(`${BASE_URL}/auth/ping`).catch(() => {});
+  return axios.get(`${BASE_URL}/auth/ping`, { timeout: 10000 });
 };
 
 export default api;
