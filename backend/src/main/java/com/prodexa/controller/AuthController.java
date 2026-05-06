@@ -23,4 +23,9 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest req) {
         return ResponseEntity.ok(authService.login(req));
     }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong");
+    }
 }

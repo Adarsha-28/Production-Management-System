@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { wakeUpBackend } from './api/axios';
 
 import Layout from './components/Layout';
 import Login from './pages/Login';
@@ -83,6 +84,10 @@ function AppRoutes() {
 }
 
 export default function App() {
+  useEffect(() => {
+    wakeUpBackend(); // ping Render backend on load so it wakes from sleep
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>
