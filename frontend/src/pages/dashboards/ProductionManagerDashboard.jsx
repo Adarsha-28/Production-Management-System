@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { dashboardAPI, productionAPI } from '../../api';
 import { LoadingSkeleton, StatusBadge, ProgressBar } from '../../components/UI';
+import DelayPredictor from '../../components/DelayPredictor';
 
 /* ── Production Manager theme: deep blue/cyan ── */
 const THEME = {
@@ -146,6 +147,11 @@ export default function ProductionManagerDashboard() {
           </div>
         </motion.div>
       </div>
+
+      {/* AI Delay Predictor */}
+      <motion.div {...fadeUp(6)}>
+        <DelayPredictor />
+      </motion.div>
 
       {/* Plans table */}
       <motion.div {...fadeUp(5)} style={{ background:'#fff', border:'1px solid #e8ecf4', borderRadius:14, boxShadow:'0 1px 4px rgba(0,0,0,0.05)', overflow:'hidden' }}>

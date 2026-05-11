@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { dashboardAPI, productionAPI, machineAPI } from '../../api';
 import { LoadingSkeleton, StatusBadge } from '../../components/UI';
+import DelayPredictor from '../../components/DelayPredictor';
 
 /* ── Admin theme: deep indigo/violet ── */
 const THEME = {
@@ -182,6 +183,11 @@ export default function AdminDashboard() {
           </LineChart>
         </ResponsiveContainer>
       </SectionCard>
+
+      {/* AI Delay Predictor */}
+      <motion.div {...fadeUp(8)}>
+        <DelayPredictor />
+      </motion.div>
 
       {/* Bottom row */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>

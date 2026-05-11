@@ -59,3 +59,7 @@ export const adminAPI = {
 export const chatbotAPI = {
   sendMessage: (message) => api.post('/chatbot/message', { message }),
 };
+
+export const predictionAPI = {
+  predictDelay: (data) => api.post('/predict/delay', data),
+};
