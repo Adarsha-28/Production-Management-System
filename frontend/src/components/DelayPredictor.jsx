@@ -28,18 +28,28 @@ export default function DelayPredictor() {
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
   const handlePredict = async () => {
-    if (form.targetQuantity <= 0) { setError('Target quantity must be greater than 0.'); return; }
-    if (form.completedQuantity > form.targetQuantity) { setError('Completed quantity cannot exceed target.'); return; }
+    const target    = Number(form.targetQuantity);
+    const completed = Number(form.completedQuantity);
+    const active    = Number(form.activeMachines);
+    const total     = Number(form.totalMachines);
+    const material  = Number(form.materialAvailability);
+
+    if (!target || target <= 0)        { setError('Target quantity must be greater than 0.'); return; }
+    if (completed < 0)                 { setError('Completed quantity cannot be negative.'); return; }
+    if (completed > target)            { setError(`Completed (${completed}) cannot exceed target (${target}).`); return; }
+    if (!total || total <= 0)          { setError('Total machines must be greater than 0.'); return; }
+    if (active < 0 || active > total)  { setError(`Active machines (${active}) cannot exceed total (${total}).`); return; }
+
     setError('');
     setLoading(true);
     try {
       const res = await predictionAPI.predictDelay({
-        ...form,
-        targetQuantity:       Number(form.targetQuantity),
-        completedQuantity:    Number(form.completedQuantity),
-        materialAvailability: Number(form.materialAvailability),
-        activeMachines:       Number(form.activeMachines),
-        totalMachines:        Number(form.totalMachines),
+        targetQuantity:       target,
+        completedQuantity:    completed,
+        machineStatus:        form.machineStatus,
+        materialAvailability: material,
+        activeMachines:       active,
+        totalMachines:        total,
       });
       setResult(res.data);
     } catch {
@@ -48,9 +58,9 @@ export default function DelayPredictor() {
     setLoading(false);
   };
 
-  const progress = form.targetQuantity > 0
-    ? Math.min(100, Math.round((form.completedQuantity / form.targetQuantity) * 100))
-    : 0;
+  const target   = Number(form.targetQuantity) || 1;
+  const completed = Number(form.completedQuantity) || 0;
+  const progress = Math.min(100, Math.round((completed / target) * 100));
 
   const cfg = result ? riskConfig[result.riskLevel] : null;
 
